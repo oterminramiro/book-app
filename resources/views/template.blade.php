@@ -20,6 +20,8 @@
 </head>
 
 <body>
+
+	@auth
 	<!-- Sidenav -->
 	<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
 		<div class="scrollbar-inner">
@@ -96,6 +98,7 @@
 			</div>
 		</div>
 	</nav>
+	@endauth
 	<!-- Main content -->
 	<div class="main-content" id="panel">
 	<!-- Topnav -->
@@ -104,6 +107,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 
+				@auth
 				<!-- Search form -->
 				<form class="navbar-search navbar-search-dark form-inline mr-sm-3" id="navbar-search-main">
 					<div class="form-group mb-0">
@@ -173,7 +177,15 @@
 						</div>
 					</li>
 				</ul>
+				@endauth
 
+				@guest
+					<ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+						<li class="nav-item">
+							<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+						</li>
+					</ul>
+				@else
 				<ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
 					<li class="nav-item dropdown">
 						<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -182,7 +194,7 @@
 									<img alt="Image placeholder" src="{{ asset('img/theme/team-4.jpg') }}">
 								</span>
 								<div class="media-body  ml-2  d-none d-lg-block">
-									<span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+									<span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
 								</div>
 							</div>
 						</a>
@@ -203,20 +215,25 @@
 								<span>Support</span>
 							</a>
 							<div class="dropdown-divider"></div>
-							<a href="#!" class="dropdown-item">
+							<a href="{{ route('logout') }}" class="dropdown-item"  onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 								<i class="ni ni-user-run"></i>
 								<span>Logout</span>
 							</a>
+
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								@csrf
+							</form>
 						</div>
 					</li>
 				</ul>
+				@endguest
 			</div>
 		</div>
 	</nav>
 	<!-- Page content -->
 		<div class="container-fluid mt--6">
 
-
+			@yield('content')
 
 		</div>
 	</div>
