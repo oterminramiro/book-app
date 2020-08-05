@@ -8,7 +8,6 @@
 	<meta name="author" content="Creative Tim">
 	<title>Laravel</title>
 	<!-- Favicon -->
-	<link rel="icon" href="{{ asset('img/brand/favicon.png') }}" type="image/png">
 	<!-- Fonts -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
 	<!-- Icons -->
@@ -27,7 +26,7 @@
 		<div class="scrollbar-inner">
 			<!-- Brand -->
 			<div class="sidenav-header  d-flex  align-items-center">
-				<a class="navbar-brand" href="../../pages/dashboards/dashboard.html">
+				<a class="navbar-brand" href="/">
 					<img src="{{ asset('img/brand/blue.png') }}" class="navbar-brand-img" alt="...">
 				</a>
 				<div class=" ml-auto ">
@@ -48,22 +47,22 @@
 					<ul class="navbar-nav">
 
 						<li class="nav-item">
-							<a class="nav-link active" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
-							  <i class="ni ni-shop text-primary"></i>
-							  <span class="nav-link-text">Dashboards</span>
+							<a class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+								<i class="ni ni-shop text-primary"></i>
+								<span class="nav-link-text">Dashboards</span>
 							</a>
-							<div class="collapse show" id="navbar-dashboards">
+							<div class="collapse" id="navbar-dashboards">
 								<ul class="nav nav-sm flex-column">
 									<li class="nav-item">
-										<a href="../../pages/dashboards/dashboard.html" class="nav-link">
+										<a href="{{ backpack_url('dashboard') }}" class="nav-link">
 											<span class="sidenav-mini-icon"> D </span>
 											<span class="sidenav-normal"> Dashboard </span>
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="../../pages/dashboards/alternative.html" class="nav-link active">
-											<span class="sidenav-mini-icon"> A </span>
-											<span class="sidenav-normal"> Alternative </span>
+										<a href="{{ backpack_url('book') }}" class="nav-link">
+											<span class="sidenav-mini-icon"> B </span>
+											<span class="sidenav-normal"> Books </span>
 										</a>
 									</li>
 								</ul>
