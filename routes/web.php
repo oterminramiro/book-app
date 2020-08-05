@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('template');
-});
-
+# Landing page
+Route::get('/', function () {return view('main/index');});
+# Auth routes
 Auth::routes();
+# Products list
+Route::get('/index', 'BookController@index')->name('index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
 Route::get('/test', 'TestController@index')->name('test');
