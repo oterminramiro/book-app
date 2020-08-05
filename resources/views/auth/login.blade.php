@@ -61,7 +61,7 @@
 							</label>
 						</div>
 						<div class="text-center">
-							<button type="button" class="btn btn-primary my-4">Sign in</button>
+							<input class="btn btn-primary my-4" type="submit" value="Sign in">
 						</div>
 					</form>
 				</div>

@@ -84,7 +84,7 @@
 							</label>
 						</div>
 						<div class="text-center">
-							<button type="button" class="btn btn-primary my-4">Register</button>
+							<input class="btn btn-primary my-4" type="submit" value="Register">
 						</div>
 					</form>
 				</div>
