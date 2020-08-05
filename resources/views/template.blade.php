@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+	@yield('css')
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
@@ -236,6 +237,7 @@
 
 		</div>
 	</div>
+	@yield('js')
 	<!-- Argon Scripts -->
 	<!-- Core -->
 	<script src="/vendor/jquery/dist/jquery.min.js"></script>
