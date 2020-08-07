@@ -11,13 +11,13 @@ class Book extends Model
 	protected $table = 'book';
 	protected $primaryKey = 'id_book';
 	protected $guarded = ['id_book'];
-	protected $fillable = ['id_book_type','id_editorial','name','description','image','filename_print','filename_download'];
+	protected $fillable = ['id_book_type','id_editorial','name','guid','description','image','filename_print','filename_download'];
 
 	public function setImageAttribute($value)
 	{
 		$attribute_name = "image";
 		$disk = "public";
-		$destination_path = "uploads/books";
+		$destination_path = "books";
 
 		$this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
 

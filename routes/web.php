@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {return view('main/index');});
 # Auth routes
 Auth::routes();
+
 # Products list
 Route::get('/index', 'BookController@index')->name('index');
-
-
-
-Route::get('/test', 'TestController@index')->name('test');
+Route::post('/addtocart', 'BookController@addtocart')->name('addtocart');

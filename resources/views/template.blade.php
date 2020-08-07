@@ -5,8 +5,7 @@
 	@yield('css')
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-	<meta name="author" content="Creative Tim">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Laravel</title>
 	<!-- Favicon -->
 	<!-- Fonts -->
@@ -100,7 +99,7 @@
 					<!-- Navigation -->
 					<ul class="navbar-nav mb-md-3">
 						<li class="nav-item">
-							<a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-pro/docs/getting-started/overview.html" target="_blank">
+							<a class="nav-link" href="/index">
 								<i class="ni ni-spaceship"></i>
 								<span class="nav-link-text">Getting started</span>
 							</a>

@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BookRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Str;
 
-/**
- * Class BookCrudController
- * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
 class BookCrudController extends CrudController
 {
 	use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -52,22 +48,40 @@ class BookCrudController extends CrudController
 		CRUD::field('name')->type('text');
 		CRUD::field('description')->type('text');
 		CRUD::addField([  // Select2
-		   'label'     => "Book Type",
-		   'type'      => 'select2',
-		   'name'      => 'id_book_type', // the db column for the foreign key
-		   'entity'    => 'BookType', // the method that defines the relationship in your Model
-		   'attribute' => 'name', // foreign key attribute that is shown to user
+			'label'     => "Book Type",
+			'type'      => 'select2',
+			'name'      => 'id_book_type', // the db column for the foreign key
+			'entity'    => 'BookType', // the method that defines the relationship in your Model
+			'attribute' => 'name', // foreign key attribute that is shown to user
 		]);
 		CRUD::addField([  // Select2
-		   'label'     => "Editorial",
-		   'type'      => 'select2',
-		   'name'      => 'id_editorial', // the db column for the foreign key
-		   'entity'    => 'Editorial', // the method that defines the relationship in your Model
-		   'attribute' => 'name', // foreign key attribute that is shown to user
+			'label'     => "Editorial",
+			'type'      => 'select2',
+			'name'      => 'id_editorial', // the db column for the foreign key
+			'entity'    => 'Editorial', // the method that defines the relationship in your Model
+			'attribute' => 'name', // foreign key attribute that is shown to user
 		]);
-		CRUD::addField(['name' => 'filename_print','label' => 'Print PDF','type' => 'upload','upload' => true]);
-		CRUD::addField(['name' => 'filename_download','label' => 'Download PDF','type' => 'upload','upload' => true]);
-		CRUD::addField(['name' => 'image','label' => 'Image','type' => 'upload','upload' => true]);
+		CRUD::addField(['name' => 'filename_print',
+			'label' => 'Print PDF',
+			'type' => 'upload',
+			'upload' => true,
+		]);
+		CRUD::addField(['name' => 'filename_download',
+			'label' => 'Download PDF',
+			'type' => 'upload',
+			'upload' => true,
+		]);
+		CRUD::addField(['name' => 'image',
+			'label' => 'Image',
+			'type' => 'upload',
+			'upload' => true,
+		]);
+		CRUD::addField([
+			'name'  => 'guid',
+			'type'  => 'hidden',
+			'label' => 'guid',
+			'default' => Str::uuid()->toString(),
+		]);
 
 	}
 
