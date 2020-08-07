@@ -50,7 +50,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
 								<i class="ni ni-shop text-primary"></i>
-								<span class="nav-link-text">Dashboards</span>
+								<span class="nav-link-text">Admin</span>
 							</a>
 							<div class="collapse" id="navbar-dashboards">
 								<ul class="nav nav-sm flex-column">
@@ -64,6 +64,18 @@
 										<a href="{{ backpack_url('book') }}" class="nav-link">
 											<span class="sidenav-mini-icon"> B </span>
 											<span class="sidenav-normal"> Books </span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{{ backpack_url('booktype') }}" class="nav-link">
+											<span class="sidenav-mini-icon"> BT </span>
+											<span class="sidenav-normal"> Book Type </span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{{ backpack_url('editorial') }}" class="nav-link">
+											<span class="sidenav-mini-icon"> E </span>
+											<span class="sidenav-normal"> Editorial </span>
 										</a>
 									</li>
 								</ul>
@@ -182,7 +194,19 @@
 				@guest
 					<ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
 						<li class="nav-item">
-							<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+							<a class="nav-link" href="/">
+								<button type="button" class="btn btn-primary">Home</button>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ route('login') }}">
+								<button type="button" class="btn btn-primary">{{ __('Login') }}</button>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ route('register') }}">
+								<button type="button" class="btn btn-primary">{{ __('Register') }}</button>
+							</a>
 						</li>
 					</ul>
 				@else
@@ -231,7 +255,7 @@
 		</div>
 	</nav>
 	<!-- Page content -->
-		<div class="container-fluid">
+		<div class="container-fluid" style="padding-left:0px !important; padding-right:0px !important">
 
 			@yield('content')
 
@@ -240,20 +264,11 @@
 	@yield('js')
 	<!-- Argon Scripts -->
 	<!-- Core -->
-	<script src="/vendor/jquery/dist/jquery.min.js"></script>
-	<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/vendor/js-cookie/js.cookie.js"></script>
 	<script src="/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
 	<script src="/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-	<!-- Optional JS -->
-	<script src="/vendor/chart.js/dist/Chart.min.js"></script>
-	<script src="/vendor/chart.js/dist/Chart.extension.js"></script>
-	<script src="/vendor/jvectormap-next/jquery-jvectormap.min.js"></script>
-	<script src="/js/vendor/jvectormap/jquery-jvectormap-world-mill.js"></script>
 	<!-- Argon JS -->
 	<script src="/js/argon.js?v=1.2.0"></script>
-	<!-- Demo JS - remove this in your project -->
-	<script src="/js/demo.min.js"></script>
 
 </body>
 
