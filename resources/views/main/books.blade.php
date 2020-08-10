@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-{{ Cookie::get('shoppingcart') }}
+
 <div class="px-8 mt-5">
 	<div class="row">
 		@foreach ($books as $book)

@@ -25,7 +25,11 @@ class BookController extends Controller
 		$cookie = Cookie::get('shoppingcart');
 		if($cookie == null)
 		{
-			$value[] = $request->input('guid');
+			$book = Book::where('guid',$request->input('guid'))->first();
+			$value[$request->input('guid')] = [
+				'name' => $book->name,
+				'image' => $book->image,
+			];
 			$cookie = cookie()->forever('shoppingcart', json_encode($value));
 		}
 		else
@@ -33,9 +37,13 @@ class BookController extends Controller
 			$cookie_decoded = json_decode($cookie, true);
 
 			# No guardar duplicados
-			if(!in_array($request->input('guid'),$cookie_decoded))
+			if(!array_key_exists($request->input('guid'),$cookie_decoded))
 			{
-				$cookie_decoded[] = $request->input('guid');
+				$book = Book::where('guid',$request->input('guid'))->first();
+				$cookie_decoded[$request->input('guid')] = [
+					'name' => $book->name,
+					'image' => $book->image,
+				];
 				$cookie = cookie()->forever('shoppingcart', json_encode($cookie_decoded));
 			}
 			else
@@ -47,8 +55,8 @@ class BookController extends Controller
 		}
 
 
-
-		$response = response("Voy a enviarte una cookie");
+		$html = view('main.cart')->render();
+		$response = response($html);
 		$response->withCookie($cookie);
 		#$response->withCookie(Cookie::forget('shoppingcart'));
 		return $response;

@@ -13,10 +13,12 @@ $( document ).ready(function() {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			},
 			success: function (data) {
-				console.log(document.cookie)
+				console.log(data);
+				$('#shoppingcart-div').empty()
+				$('#shoppingcart-div').append(data)
 			},
 			error: function (data) {
-				console.log(document.cookie);
+				console.log(data);
 			}
 		});
 	})
