@@ -35,23 +35,28 @@ class BookController extends Controller
 		else
 		{
 			$cookie_decoded = json_decode($cookie, true);
-
-			# No guardar duplicados
-			if(!array_key_exists($request->input('guid'),$cookie_decoded))
+			if(count($cookie_decoded) == 10)
 			{
-				$book = Book::where('guid',$request->input('guid'))->first();
-				$cookie_decoded[$request->input('guid')] = [
-					'name' => $book->name,
-					'image' => $book->image,
-				];
-				$cookie = cookie()->forever('shoppingcart', json_encode($cookie_decoded));
+				# Ver como devolver que ya estan los 10 items agregados
 			}
 			else
 			{
-				# Volver a setear la Cookie para que no se peirda
-				$cookie = cookie()->forever('shoppingcart', $cookie);
+				# No guardar duplicados
+				if(!array_key_exists($request->input('guid'),$cookie_decoded))
+				{
+					$book = Book::where('guid',$request->input('guid'))->first();
+					$cookie_decoded[$request->input('guid')] = [
+						'name' => $book->name,
+						'image' => $book->image,
+					];
+					$cookie = cookie()->forever('shoppingcart', json_encode($cookie_decoded));
+				}
+				else
+				{
+					# Volver a setear la Cookie para que no se peirda
+					$cookie = cookie()->forever('shoppingcart', $cookie);
+				}
 			}
-
 		}
 
 
@@ -60,5 +65,15 @@ class BookController extends Controller
 		$response->withCookie($cookie);
 		#$response->withCookie(Cookie::forget('shoppingcart'));
 		return $response;
+	}
+
+	public function shoppingcart(Request $request)
+	{
+		$cookie = Cookie::get('shoppingcart');
+		$cookie_decoded = json_decode($cookie, true);
+		if(count($cookie_decoded) == 10)
+		{
+			# Logica
+		}
 	}
 }

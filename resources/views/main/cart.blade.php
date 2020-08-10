@@ -20,4 +20,6 @@
 		</div>
 	</a>
 	<?php endforeach ?>
+	<!-- View all -->
+	<a href="<?php if (count($cookie) == 10){ echo '/shoppingcart';}else{echo 'javascript:void(0)';} ?>" class="dropdown-item text-center text-primary font-weight-bold py-3">Finish</a>
 <?php endif ?>

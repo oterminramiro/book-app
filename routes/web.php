@@ -20,3 +20,4 @@ Auth::routes();
 # Products list
 Route::get('/index', 'BookController@index')->name('index');
 Route::post('/addtocart', 'BookController@addtocart')->name('addtocart');
+Route::post('/shoppingcart', 'BookController@shoppingcart')->name('shoppingcart');

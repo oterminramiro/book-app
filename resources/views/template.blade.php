@@ -159,10 +159,8 @@
 						<div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
 							<!-- List group -->
 							<div id="shoppingcart-div" class="list-group list-group-flush">
-								@include('main.cart') 
+								@include('main.cart')
 							</div>
-							<!-- View all -->
-							<a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
 						</div>
 					</li>
 				</ul>
