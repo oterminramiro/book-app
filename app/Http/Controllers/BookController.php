@@ -73,7 +73,9 @@ class BookController extends Controller
 		$cookie_decoded = json_decode($cookie, true);
 		if(count($cookie_decoded) == 10)
 		{
-			# Logica
+
+			# View con toda la info
 		}
+		return view('main/fullcart', compact('cookie_decoded'));
 	}
 }
