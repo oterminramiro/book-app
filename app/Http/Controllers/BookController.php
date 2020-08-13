@@ -67,6 +67,11 @@ class BookController extends Controller
 		return $response;
 	}
 
+	public function removecart(Request $request)
+	{
+		
+	}
+
 	public function shoppingcart(Request $request)
 	{
 		$cookie = Cookie::get('shoppingcart');
