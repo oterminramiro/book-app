@@ -21,40 +21,41 @@ class BookController extends Controller
 
 	public function addtocart(Request $request)
 	{
+		$session = session('cart');
 
-		$cookie = Cookie::get('shoppingcart');
-		if($cookie == null)
+		$request->session()->put('key', 'value');
+		if($session == null)
 		{
 			$book = Book::where('guid',$request->input('guid'))->first();
 			$value[$request->input('guid')] = [
 				'name' => $book->name,
 				'image' => $book->image,
 			];
-			$cookie = cookie()->forever('shoppingcart', json_encode($value));
+			$request->session()->put('cart', json_encode($value));
 		}
 		else
 		{
-			$cookie_decoded = json_decode($cookie, true);
-			if(count($cookie_decoded) == 10)
+			$session_decoded = json_decode($session, true);
+			if(count($session_decoded) == 10)
 			{
 				# Ver como devolver que ya estan los 10 items agregados
 			}
 			else
 			{
 				# No guardar duplicados
-				if(!array_key_exists($request->input('guid'),$cookie_decoded))
+				if(!array_key_exists($request->input('guid'),$session_decoded))
 				{
 					$book = Book::where('guid',$request->input('guid'))->first();
-					$cookie_decoded[$request->input('guid')] = [
+					$session_decoded[$request->input('guid')] = [
 						'name' => $book->name,
 						'image' => $book->image,
 					];
-					$cookie = cookie()->forever('shoppingcart', json_encode($cookie_decoded));
+					$request->session()->put('cart', json_encode($session_decoded));
 				}
 				else
 				{
 					# Volver a setear la Cookie para que no se peirda
-					$cookie = cookie()->forever('shoppingcart', $cookie);
+					$request->session()->put('cart', $session);
 				}
 			}
 		}
@@ -62,25 +63,33 @@ class BookController extends Controller
 
 		$html = view('main.cart')->render();
 		$response = response($html);
-		$response->withCookie($cookie);
-		#$response->withCookie(Cookie::forget('shoppingcart'));
 		return $response;
 	}
 
 	public function removecart(Request $request)
 	{
-		
+		$session = session('cart');
+		$session_decoded = json_decode($session, true);
+		if(array_key_exists($request->input('guid'),$session_decoded))
+		{
+			unset($session_decoded[$request->input('guid')]);
+			$request->session()->put('cart', json_encode($session_decoded));
+		}
+
+		$html = view('main.cart')->render();
+		$response = response($html);
+		return $response;
 	}
 
 	public function shoppingcart(Request $request)
 	{
-		$cookie = Cookie::get('shoppingcart');
-		$cookie_decoded = json_decode($cookie, true);
-		if(count($cookie_decoded) == 10)
+		$session = session('cart');
+		$session_decoded = json_decode($session, true);
+		if(count($session_decoded) == 10)
 		{
 
 			# View con toda la info
 		}
-		return view('main/fullcart', compact('cookie_decoded'));
+		return view('main/fullcart', compact('session_decoded'));
 	}
 }

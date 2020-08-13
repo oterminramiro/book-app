@@ -179,9 +179,9 @@
                                 <span>
                                     <i class="ni ni-cart"></i>
                                 </span>
-                                <?php $cookie = json_decode(Cookie::get('shoppingcart'),true) ?>
-                                <?php if ($cookie != NULL): ?>
-                                    <span id="cart-badge" class="badge badge-md badge-circle badge-floating badge-danger border-white"><?php echo count($cookie) ?></span>
+                                <?php $session = json_decode(Session::get('cart'),true) ?>
+                                <?php if ($session != NULL): ?>
+                                    <span id="cart-badge" class="badge badge-md badge-circle badge-floating badge-danger border-white"><i class="fas fa-bell" style="font-size:.55rem"></i></span>
                                 <?php endif ?>
                             </button>
                         </a>

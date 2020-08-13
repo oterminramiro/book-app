@@ -1,6 +1,6 @@
-<?php $cookie = json_decode(Cookie::get('shoppingcart'),true) ?>
-<?php if ($cookie != NULL): ?>
-	<?php foreach($cookie as $cart): ?>
+<?php $session = json_decode(Session::get('cart'),true) ?>
+<?php if ($session != NULL): ?>
+	<?php foreach($session as $guid => $cart): ?>
 	<div class="list-group-item list-group-item-action">
 		<div class="row align-items-center">
 			<div class="col-auto">
@@ -18,11 +18,11 @@
 				</div>
 			</div>
 			<div class="col-2">
-				<a href="/removecart" style="color:#525f7f"><i class="far fa-trash-alt"></i></a>
+				<i id="<?php echo($guid) ?>" class="removecart far fa-trash-alt" style="cursor:pointer"></i>
 			</div>
 		</div>
 	</div>
 	<?php endforeach ?>
 	<!-- View all -->
-	<a href="<?php if (count($cookie) == 10){ echo '/shoppingcart';}else{echo 'javascript:void(0)';} ?>" class="dropdown-item text-center text-primary font-weight-bold py-3">Finish</a>
+	<a href="<?php if (count($session) == 10){ echo '/shoppingcart';}else{echo 'javascript:void(0)';} ?>" class="dropdown-item text-center text-primary font-weight-bold py-3">Finish</a>
 <?php endif ?>
