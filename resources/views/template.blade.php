@@ -40,8 +40,8 @@
 </head>
 
 <body>
-
     @auth
+	@if ( checkRole(['ADMIN','OPERATOR']) )
     <!-- Sidenav -->
     <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
         <div class="scrollbar-inner">
@@ -130,130 +130,94 @@
             </div>
         </div>
     </nav>
-    @endauth
+	@endif
+	@endauth
     <!-- Main content -->
     <div class="main-content" id="panel">
     <!-- Topnav -->
     <nav class="navbar navbar-top navbar-expand navbar-light bg-secondary border-bottom">
         <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse row" id="navbarSupportedContent">
 
+				<div class="col-2">
+					<a class="btn btn-default" href="/">Home</a>
+				</div>
 
-                @auth
-                <!-- Search form -->
-                <form class="navbar-search navbar-search-dark form-inline mr-sm-3" id="navbar-search-main">
-                    <div class="form-group mb-0">
-                        <div class="input-group input-group-alternative input-group-merge">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            </div>
-                            <input class="form-control" placeholder="Search" type="text">
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                </form>
+				@auth
+					<div class="col-8 text-center">
+						<a href="/index">Crea tu libro</a>
+					</div>
+					<div class="col-2">
+						<!-- Navbar links -->
+						<ul class="navbar-nav align-items-center  ml-md-auto ">
+							<li class="nav-item dropdown">
+								<a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<button id="cart-btn" type="button" class="btn">
+										<span>
+											<i class="ni ni-cart"></i>
+										</span>
+										<?php $session = json_decode(Session::get('cart'),true) ?>
+										<?php if ($session != NULL): ?>
+											<span id="cart-badge" class="badge badge-md badge-circle badge-floating badge-danger border-white"><i class="fas fa-bell" style="font-size:.55rem"></i></span>
+										<?php endif ?>
+									</button>
+								</a>
+								<div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
+									<!-- List group -->
+									<div id="shoppingcart-div" class="list-group list-group-flush">
+										@include('main.cart')
+									</div>
+								</div>
+							</li>
+		                    <li class="nav-item dropdown">
+		                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                            <div class="media align-items-center">
+		                                <span class="avatar avatar-sm rounded-circle">
+		                                    <img alt="Image placeholder" src="{{ asset('img/theme/team-4.jpg') }}">
+		                                </span>
+		                                <div class="media-body  ml-2  d-none d-lg-block">
+		                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
+		                                </div>
+		                            </div>
+		                        </a>
+		                        <div class="dropdown-menu  dropdown-menu-right ">
+		                            <div class="dropdown-header noti-title">
+		                                <h6 class="text-overflow m-0">Welcome!</h6>
+		                            </div>
+		                            <a href="#!" class="dropdown-item">
+		                                <i class="ni ni-single-02"></i>
+		                                <span>My profile</span>
+		                            </a>
+		                            <a href="#!" class="dropdown-item">
+		                                <i class="ni ni-calendar-grid-58"></i>
+		                                <span>Activity</span>
+		                            </a>
+		                            <a href="#!" class="dropdown-item">
+		                                <i class="ni ni-support-16"></i>
+		                                <span>Support</span>
+		                            </a>
+		                            <div class="dropdown-divider"></div>
+		                            <a href="{{ route('logout') }}" class="dropdown-item"  onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+		                                <i class="ni ni-user-run"></i>
+		                                <span>Logout</span>
+		                            </a>
 
-
-                <!-- Navbar links -->
-                <ul class="navbar-nav align-items-center  ml-md-auto ">
-                    <li class="nav-item d-xl-none">
-                        <!-- Sidenav toggler -->
-                        <div class="pr-3 sidenav-toggler sidenav-toggler-light" data-action="sidenav-pin" data-target="#sidenav-main">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line"></i>
-                                <i class="sidenav-toggler-line"></i>
-                                <i class="sidenav-toggler-line"></i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item d-sm-none">
-                        <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
-                            <i class="ni ni-zoom-split-in"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <button id="cart-btn" type="button" class="btn">
-                                <span>
-                                    <i class="ni ni-cart"></i>
-                                </span>
-                                <?php $session = json_decode(Session::get('cart'),true) ?>
-                                <?php if ($session != NULL): ?>
-                                    <span id="cart-badge" class="badge badge-md badge-circle badge-floating badge-danger border-white"><i class="fas fa-bell" style="font-size:.55rem"></i></span>
-                                <?php endif ?>
-                            </button>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
-                            <!-- List group -->
-                            <div id="shoppingcart-div" class="list-group list-group-flush">
-                                @include('main.cart')
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                @endauth
-
-                @guest
-                    <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">
-                                <button type="button" class="btn btn-primary">Home</button>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">
-                                <button type="button" class="btn btn-primary">{{ __('Login') }}</button>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">
-                                <button type="button" class="btn btn-primary">{{ __('Register') }}</button>
-                            </a>
-                        </li>
-                    </ul>
-                @else
-                <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="media align-items-center">
-                                <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="{{ asset('img/theme/team-4.jpg') }}">
-                                </span>
-                                <div class="media-body  ml-2  d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu  dropdown-menu-right ">
-                            <div class="dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">Welcome!</h6>
-                            </div>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ni ni-single-02"></i>
-                                <span>My profile</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Activity</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ni ni-support-16"></i>
-                                <span>Support</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ route('logout') }}" class="dropdown-item"  onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <i class="ni ni-user-run"></i>
-                                <span>Logout</span>
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                </ul>
+		                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+		                                @csrf
+		                            </form>
+		                        </div>
+		                    </li>
+		                </ul>
+					</div>
+				@else
+					<div class="col-10 text-right">
+						<a class="btn btn-default" href="{{ route('login') }}">
+							{{ __('Login') }}
+						</a>
+						<a class="btn btn-default" href="{{ route('register') }}">
+							{{ __('Register') }}
+						</a>
+					</div>
                 @endguest
             </div>
         </div>

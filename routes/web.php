@@ -22,3 +22,4 @@ Route::get('/index', 'BookController@index')->name('index');
 Route::post('/addtocart', 'BookController@addtocart')->name('addtocart');
 Route::post('/removecart', 'BookController@removecart')->name('removecart');
 Route::get('/shoppingcart', 'BookController@shoppingcart')->name('shoppingcart');
+Route::get('/mercadopago_checkout', 'BookController@mercadopago_checkout')->name('mercadopago_checkout');
