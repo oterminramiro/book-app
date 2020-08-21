@@ -202,20 +202,32 @@ class BookController extends Controller
 		{
 			$Book = Book::where('id_book',$order_book->id_book)->first();
 
-			$PdfPrint->addPDF(base_path($Book->filename_print), 'all');
-			$PdfDownload->addPDF(base_path($Book->filename_download), 'all');
+			$PdfPrint->addPDF(public_path('/pdf/'.$Book->filename_print), 'all');
+			$PdfDownload->addPDF(public_path('/pdf/'.$Book->filename_download), 'all');
 		}
 
 		$PdfPrint->merge();
 		$PdfDownload->merge();
 
-		$file_save_print = $PdfPrint->save(public_path('pdf/'.auth()->user()->guid.'/'.$Order->id_order.'print.pdf'), "file");
-		$file_save_download = $PdfDownload->save(public_path('pdf/'.auth()->user()->guid.'/'.$Order->id_order.'download.pdf'), "file");
+		$file_save_print = $PdfPrint->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'print.pdf'), "file");
+		$file_save_download = $PdfDownload->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'download.pdf'), "file");
 
 		$Order->filepath_print = $file_save_print;
 		$Order->filepath_download = $file_save_download;
 		$Order->save();
 
 		#Send email with download pdf
+	}
+
+	public function test(Request $request)
+	{
+		$PdfPrint = PDFMerger::init();
+
+		$PdfPrint->addPDF(public_path('/pdf/books/divina.pdf'), 'all');
+		$PdfPrint->addPDF(public_path('/pdf/books/recetas.pdf'), 'all');
+
+		$PdfPrint->merge();
+
+		$file_save_print = $PdfPrint->save(public_path('/pdf/books/print.pdf'), "file");
 	}
 }
