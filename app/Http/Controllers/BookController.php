@@ -8,6 +8,8 @@ use App\Models\Editorial;
 use Illuminate\Http\Request;
 
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
+use App\Mail\PdfEmail;
+use Illuminate\Support\Facades\Mail;
 
 class BookController extends Controller
 {
@@ -221,6 +223,15 @@ class BookController extends Controller
 
 	public function test(Request $request)
 	{
+
+
+	    $data = ['message' => 'This is a test!'];
+
+	    Mail::to('oterminramiro@gmail.com')->send(new PdfEmail($data));
+
+		die();
+
+
 		$PdfPrint = PDFMerger::init();
 
 		$PdfPrint->addPDF(public_path('/pdf/books/divina.pdf'), 'all');
