@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BooktypeRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Str;
 
 class BooktypeCrudController extends CrudController
 {
@@ -24,14 +25,20 @@ class BooktypeCrudController extends CrudController
 
 	protected function setupListOperation()
 	{
-		CRUD::setFromDb(); // columns
+		CRUD::addColumns(['name']);
 	}
 
 	protected function setupCreateOperation()
 	{
 		CRUD::setValidation(BooktypeRequest::class);
 
-		CRUD::setFromDb(); // fields
+		CRUD::field('name')->type('text');
+		CRUD::addField([
+			'name'  => 'guid',
+			'type'  => 'hidden',
+			'label' => 'guid',
+			'default' => Str::uuid()->toString(),
+		]);
 	}
 
 	protected function setupUpdateOperation()

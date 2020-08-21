@@ -60,16 +60,16 @@
         },
         {
             "name": "backpack/crud",
-            "version": "4.1.17",
+            "version": "4.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "952ba942c7ff8b41fc2409d3c3cfef68dd48bf18"
+                "reference": "8109ca0d308e47fb24c8baa8bd9893e21a187214"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/952ba942c7ff8b41fc2409d3c3cfef68dd48bf18",
-                "reference": "952ba942c7ff8b41fc2409d3c3cfef68dd48bf18",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/8109ca0d308e47fb24c8baa8bd9893e21a187214",
+                "reference": "8109ca0d308e47fb24c8baa8bd9893e21a187214",
                 "shasum": ""
             },
             "require": {
@@ -140,7 +140,7 @@
                 "read",
                 "update"
             ],
-            "time": "2020-08-10T14:13:14+00:00"
+            "time": "2020-08-20T12:38:06+00:00"
         },
         {
             "name": "creativeorange/gravatar",

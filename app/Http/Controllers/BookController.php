@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Cookie;
 use App\Models\Book;
+use App\Models\Booktype;
+use App\Models\Editorial;
 use Illuminate\Http\Request;
 
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
@@ -18,8 +20,42 @@ class BookController extends Controller
 	public function index()
 	{
 		#var_dump(auth()->user()->id_user);
+
 		$books = Book::get();
-		return view('main/books', compact('books'));
+		$bookType = BookType::get();
+		$editorial = Editorial::get();
+
+		return view('main/books', compact('books','bookType','editorial'));
+	}
+
+	public function filter_book(Request $request)
+	{
+		$query = Book::query();
+
+		if($request->input('book_type') != NULL)
+		{
+			$bookType = BookType::whereIn('guid',$request->input('book_type'))->get()->modelKeys();
+			if(count($bookType) != 0)
+			{
+				$query = $query->whereIn('id_book_type',$bookType);
+			}
+		}
+		if($request->input('editorial') != NULL)
+		{
+			$editorial = Editorial::whereIn('guid',$request->input('editorial'))->get()->modelKeys();
+			if(count($editorial) != 0)
+			{
+				$query = $query->whereIn('id_editorial',$editorial);
+			}
+		}
+		if($request->input('word') != NULL)
+		{
+			$query = $query->where('name','like','%'.$request->input('word').'%');
+		}
+
+		$books = $query->get();
+
+		return view('main/partials/books', compact('books'));
 	}
 
 	public function addtocart(Request $request)
@@ -64,7 +100,7 @@ class BookController extends Controller
 		}
 
 
-		$html = view('main.cart')->render();
+		$html = view('main.partials.cart')->render();
 		$response = response($html);
 		return $response;
 	}
@@ -79,7 +115,7 @@ class BookController extends Controller
 			$request->session()->put('cart', json_encode($session_decoded));
 		}
 
-		$html = view('main.cart')->render();
+		$html = view('main.partials.cart')->render();
 		$response = response($html);
 		return $response;
 	}
@@ -90,16 +126,27 @@ class BookController extends Controller
 		$session_decoded = json_decode($session, true);
 		if(count($session_decoded) == 10)
 		{
-
+			$response = array();
+			foreach($session_decoded as $key => $item)
+			{
+				$Book = Book::where('guid',$key)->first();
+				$response[] = [
+					'name' => $Book->name,
+					'img' => $Book->image,
+					'description' => $Book->description,
+					'editorial' => $Book->Editorial->name,
+					'booktype' => $Book->BookType->name,
+				];
+			}
 			# View con toda la info
 		}
-		return view('main/fullcart', compact('session_decoded'));
+		return view('main/fullcart', compact('response'));
 	}
 
 	public function mercadopago_checkout(Request $request)
 	{
-
-		die('hola');
+		require base_path('/vendor/autoload.php');
+		#die('hola');
 		MercadoPago\SDK::setAccessToken('PROD_ACCESS_TOKEN');
 
 		$preference = new MercadoPago\Preference();
