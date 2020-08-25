@@ -45,35 +45,33 @@
 					<h3 class="mb-0">Shipping</h3>
 				</div>
 				<div class="card-body">
-					<form>
+					<form action="/create_order" method="post">
+						@csrf
 						<div class="form-group">
-							<label class="form-control-label" for="exampleFormControlInput1">Email address</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+							<label class="form-control-label" for="exampleFormControlInput1">Email</label>
+							<input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
 						</div>
 						<div class="form-group">
-							<label class="form-control-label" for="exampleFormControlSelect1">Example select</label>
-							<select class="form-control" id="exampleFormControlSelect1">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
+							<label class="form-control-label" for="exampleFormControlInput2">Address</label>
+							<input name="address" type="text" class="form-control" id="exampleFormControlInput2" placeholder="Address" required>
 						</div>
 						<div class="form-group">
-							<label class="form-control-label" for="exampleFormControlSelect2">Example multiple select</label>
-							<select multiple="" class="form-control" id="exampleFormControlSelect2">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
+							<label class="form-control-label" for="exampleFormControlInput3">Country</label>
+							<input name="country" type="text" class="form-control" id="exampleFormControlInput3" placeholder="Country" required>
 						</div>
 						<div class="form-group">
-							<label class="form-control-label" for="exampleFormControlTextarea1">Example textarea</label>
-							<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+							<label class="form-control-label" for="exampleFormControlInput4">City</label>
+							<input name"city" type="text" class="form-control" id="exampleFormControlInput4" placeholder="City" required>
 						</div>
+						<div class="form-group">
+							<label class="form-control-label" for="exampleFormControlInput5">Postal Code</label>
+							<input name="postalcode" type="text" class="form-control" id="exampleFormControlInput5" placeholder="Postal Code" required>
+						</div>
+						<div class="form-group">
+							<label class="form-control-label" for="exampleFormControlTextarea1">Comments</label>
+							<textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+						</div>
+						<input class="btn btn-primary w-100" type="submit" value="Send">
 					</form>
 				</div>
 			</div>

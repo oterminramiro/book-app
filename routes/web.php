@@ -24,6 +24,6 @@ Route::post('/addtocart', 'BookController@addtocart')->name('addtocart');
 Route::post('/removecart', 'BookController@removecart')->name('removecart');
 Route::get('/shoppingcart', 'BookController@shoppingcart')->name('shoppingcart');
 Route::get('/mercadopago_checkout', 'BookController@mercadopago_checkout')->name('mercadopago_checkout');
-Route::get('/create_order', 'BookController@create_order')->name('create_order');
+Route::post('/create_order', 'BookController@create_order')->name('create_order');
 Route::get('/create_pdf', 'BookController@create_pdf')->name('create_pdf');
 Route::get('/test', 'BookController@test')->name('test');

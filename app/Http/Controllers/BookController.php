@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use Cookie;
+use App\Order;
+use App\OrderBook;
+use App\Shipping;
 use App\Models\Book;
 use App\Models\Booktype;
 use App\Models\Editorial;
@@ -166,6 +169,7 @@ class BookController extends Controller
 
 	public function create_order(Request $request)
 	{
+
 		$session = session('cart');
 		$session_decoded = json_decode($session, true);
 		if($session != NULL)
@@ -189,6 +193,15 @@ class BookController extends Controller
 				$OrderBook->id_book = $Book->id_book;
 				$OrderBook->save();
 			}
+
+			$Shipping = new Shipping;
+			$Shipping->id_order = $Order->id_order;
+			$Shipping->email = $request->input('email');
+			$Shipping->address = $request->input('address');
+			$Shipping->country = $request->input('country');
+			$Shipping->postalcode = $request->input('postalcode');
+			$Shipping->comment = $request->input('comment');
+			$Shipping->save();
 		}
 	}
 
