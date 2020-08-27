@@ -14,6 +14,8 @@ use LynX39\LaraPdfMerger\Facades\PdfMerger;
 use App\Mail\PdfEmail;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Database\Capsule\Manager as DB;
+
 class BookController extends Controller
 {
 
@@ -24,8 +26,6 @@ class BookController extends Controller
 
 	public function index()
 	{
-		#var_dump(auth()->user()->id_user);
-
 		$books = Book::get();
 		$bookType = BookType::get();
 		$editorial = Editorial::get();
@@ -174,71 +174,94 @@ class BookController extends Controller
 		$session_decoded = json_decode($session, true);
 		if($session != NULL)
 		{
-
-			$Order = new Order;
-			$Order->id_user = auth()->user()->id_user;
-			$Order->filepath_print = NULL;
-			$Order->filepath_download = NULL;
-			$Order->guid = Str::uuid()->toString();
-			$Order->created = date("Y-m-d H:i:s", time());
-			$Order->updated = date("Y-m-d H:i:s", time());
-			$Order->save();
-
-			foreach($session_decoded as $guid => $book_item)
+			try
 			{
-				$Book = Book::where('guid',$guid)->first();
+				DB::beginTransaction();
 
-				$OrderBook = new OrderBook;
-				$OrderBook->id_order = $Order->id_order;
-				$OrderBook->id_book = $Book->id_book;
-				$OrderBook->save();
+				$Order = new Order;
+				$Order->id_user = auth()->user()->id_user;
+				$Order->filepath_print = NULL;
+				$Order->filepath_download = NULL;
+				$Order->guid = Str::uuid()->toString();
+				$Order->created = date("Y-m-d H:i:s", time());
+				$Order->updated = date("Y-m-d H:i:s", time());
+				$save = $Order->save();
+				if(!$save)
+				{
+					throw new Exception();
+				}
+
+				foreach($session_decoded as $guid => $book_item)
+				{
+					$Book = Book::where('guid',$guid)->first();
+
+					$OrderBook = new OrderBook;
+					$OrderBook->id_order = $Order->id_order;
+					$OrderBook->id_book = $Book->id_book;
+					$save = $OrderBook->save();
+					if(!$save)
+					{
+						throw new Exception();
+					}
+				}
+
+				$Shipping = new Shipping;
+				$Shipping->id_order = $Order->id_order;
+				$Shipping->email = $request->input('email');
+				$Shipping->address = $request->input('address');
+				$Shipping->country = $request->input('country');
+				$Shipping->postalcode = $request->input('postalcode');
+				$Shipping->comment = $request->input('comment');
+				$save = $Shipping->save();
+				if(!$save)
+				{
+					throw new Exception();
+				}
+
+				$PdfPrint = PDFMerger::init();
+				$PdfDownload = PDFMerger::init();
+
+				foreach ($Order->OrderBook as $order_book)
+				{
+					$Book = Book::where('id_book',$order_book->id_book)->first();
+
+					$PdfPrint->addPDF(public_path('/pdf/'.$Book->filename_print), 'all');
+					$PdfDownload->addPDF(public_path('/pdf/'.$Book->filename_download), 'all');
+				}
+
+				$PdfPrint->merge();
+				$PdfDownload->merge();
+
+				$file_save_print = $PdfPrint->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'print.pdf'), "file");
+				$file_save_download = $PdfDownload->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'download.pdf'), "file");
+
+				$Order->filepath_print = $file_save_print;
+				$Order->filepath_download = $file_save_download;
+				$save = $Order->save();
+				if(!$save)
+				{
+					throw new Exception();
+				}
+
+				DB::commit();
+			}
+			catch (\Exception $e)
+			{
+				//Rollback Transaction
+				DB::rollback();
 			}
 
-			$Shipping = new Shipping;
-			$Shipping->id_order = $Order->id_order;
-			$Shipping->email = $request->input('email');
-			$Shipping->address = $request->input('address');
-			$Shipping->country = $request->input('country');
-			$Shipping->postalcode = $request->input('postalcode');
-			$Shipping->comment = $request->input('comment');
-			$Shipping->save();
+
+
 		}
 	}
 
-	public function create_pdf(Request $request)
-	{
-		$guid = $request->input('guid');
-		$Order = Order::where('guid' , $guid)->first();
-
-		$PdfPrint = PDFMerger::init();
-		$PdfDownload = PDFMerger::init();
-
-		foreach ($Order->OrderBook as $order_book)
-		{
-			$Book = Book::where('id_book',$order_book->id_book)->first();
-
-			$PdfPrint->addPDF(public_path('/pdf/'.$Book->filename_print), 'all');
-			$PdfDownload->addPDF(public_path('/pdf/'.$Book->filename_download), 'all');
-		}
-
-		$PdfPrint->merge();
-		$PdfDownload->merge();
-
-		$file_save_print = $PdfPrint->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'print.pdf'), "file");
-		$file_save_download = $PdfDownload->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'download.pdf'), "file");
-
-		$Order->filepath_print = $file_save_print;
-		$Order->filepath_download = $file_save_download;
-		$Order->save();
-
-		#Send email with download pdf
-	}
 
 	public function test(Request $request)
 	{
-
-
-	    $data = ['message' => 'This is a test!'];
+	    $data = [
+			'username' => auth()->user()->name,
+		];
 
 	    Mail::to('oterminramiro@gmail.com')->send(new PdfEmail($data));
 

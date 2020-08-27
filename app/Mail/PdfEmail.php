@@ -20,16 +20,14 @@ class PdfEmail extends Mailable
 
 	public function build()
 	{
-		$address = 'ramiro@cubiq.digital';
-		$subject = 'This is a demo!';
-		$name = 'Jane Doe';
+		$address = $_ENV['MAIL_FROM_ADDRESS'];
+		$name = $_ENV['MAIL_FROM_NAME'];
+		$subject = 'Your book';
 
 		return $this->view('emails.pdf')
 			->from($address, $name)
-			->cc($address, $name)
-			->bcc($address, $name)
 			->replyTo($address, $name)
 			->subject($subject)
-			->with([ 'test_message' => $this->data['message'] ]);
+			->with([ 'username' => $this->data['username'], 'subject' => $subject, ]);
 	}
 }
