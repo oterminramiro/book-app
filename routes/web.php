@@ -26,4 +26,5 @@ Route::get('/shoppingcart', 'BookController@shoppingcart')->name('shoppingcart')
 Route::get('/mercadopago_checkout', 'BookController@mercadopago_checkout')->name('mercadopago_checkout');
 Route::post('/create_order', 'BookController@create_order')->name('create_order');
 Route::get('/create_pdf', 'BookController@create_pdf')->name('create_pdf');
+Route::get('/download_pdf/{guid}', 'BookController@download_pdf')->name('download_pdf');
 Route::get('/test', 'BookController@test')->name('test');

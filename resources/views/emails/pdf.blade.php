@@ -21,7 +21,7 @@
 	<table class="bg_white" role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
 		<tr>
 			<td valign="middle" style="text-align:left; padding: 1em 2.5em;">
-				<p><a href="#" class="btn btn-primary">Continur your order</a></p>
+				<p><a href="{{ $link }}" class="btn btn-primary">Download your pdf</a></p>
 			</td>
 		</tr>
 	</table>

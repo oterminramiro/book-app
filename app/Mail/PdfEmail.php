@@ -23,11 +23,12 @@ class PdfEmail extends Mailable
 		$address = $_ENV['MAIL_FROM_ADDRESS'];
 		$name = $_ENV['MAIL_FROM_NAME'];
 		$subject = 'Your book';
+		$link = url('/') . '/download_pdf/' . auth()->user()->guid;
 
 		return $this->view('emails.pdf')
 			->from($address, $name)
 			->replyTo($address, $name)
 			->subject($subject)
-			->with([ 'username' => $this->data['username'], 'subject' => $subject, ]);
+			->with([ 'username' => $this->data['username'], 'subject' => $subject, 'link' => $link ]);
 	}
 }

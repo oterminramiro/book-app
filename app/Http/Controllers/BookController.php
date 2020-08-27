@@ -232,11 +232,14 @@ class BookController extends Controller
 				$PdfPrint->merge();
 				$PdfDownload->merge();
 
-				$file_save_print = $PdfPrint->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'print.pdf'), "file");
-				$file_save_download = $PdfDownload->save(public_path('/pdf/'.auth()->user()->guid.'/'.$Order->id_order.'download.pdf'), "file");
+				$file_name_print = auth()->user()->guid.'/'.$Order->id_order.'print.pdf';
+				$file_name_download = auth()->user()->guid.'/'.$Order->id_order.'download.pdf';
 
-				$Order->filepath_print = $file_save_print;
-				$Order->filepath_download = $file_save_download;
+				$file_save_print = $PdfPrint->save(public_path($file_name_print), "file");
+				$file_save_download = $PdfDownload->save(public_path($file_name_download), "file");
+
+				$Order->filepath_print = $file_name_print;
+				$Order->filepath_download = $file_name_download;
 				$save = $Order->save();
 				if(!$save)
 				{
@@ -256,6 +259,17 @@ class BookController extends Controller
 		}
 	}
 
+	public function download_pdf(Request $request, $guid = null)
+	{
+		$Order = Order::where('guid',$guid)->first();
+		if($Order)
+		{
+			$myFile = public_path($Order->filepath_download);
+			$headers = ['Content-Type: application/pdf'];
+
+			return response()->download($myFile, 'book.pdf', $headers);
+		}
+	}
 
 	public function test(Request $request)
 	{
@@ -277,4 +291,6 @@ class BookController extends Controller
 
 		$file_save_print = $PdfPrint->save(public_path('/pdf/books/print.pdf'), "file");
 	}
+
+
 }
